@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
+//using layout library
+const expressLayouts = require("express-ejs-layouts");
 
 //use express router
 app.use("/", require("./routes"));
+app.use(expressLayouts);
 
 //setup view engine
 app.set("view engine", "ejs");
