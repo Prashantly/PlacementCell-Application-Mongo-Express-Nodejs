@@ -65,3 +65,15 @@ module.exports.createSession = function (req, res) {
   console.log("You are successfully loggedin");
   return res.redirect("/");
 };
+
+// destroy session or sign out or clears the cookie
+module.exports.destroySession = function (req, res) {
+  req.logout((err) => {
+    // Clear the authenticated user's session data
+    if (err) {
+      return next(err);
+    }
+  });
+  console.log("You are successfully loggedout");
+  return res.redirect("/");
+};
