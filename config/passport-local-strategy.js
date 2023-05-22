@@ -10,20 +10,21 @@ passport.use(
       usernameField: "email",
       passReqToCallback: true, // Pass the req object to the callback function
     },
-    function (req, email, password, done) {
-      //find user by email and establish identity
-      User.findOne({ email: email }, function (err, user) {
-        if (err) {
-          console.log("Error in finding user----> passport");
-          return done(err);
-        }
+    async function (req, email, password, done) {
+      try {
+        //find user by email and establish identity
+        const user = await User.findOne({ email: email });
         if (!user || user.password != password) {
           console.log("Invlid username/password");
           return done(null, false);
         }
 
+        //if username and password are valid, return the user
         return done(null, user);
-      });
+      } catch (err) {
+        console.log("Error in finding user ----> passport", err);
+        return done(err);
+      }
     }
   )
 );
@@ -35,15 +36,15 @@ passport.serializeUser(function (user, done) {
 });
 
 //deserializing the user from the key in the cookies
-passport.deserializeUser(function (id, done) {
-  //find the user by id and return it
-  User.findById(id, function (err, user) {
-    if (err) {
-      console.log("Error in finding user----> passport");
-      return done(err);
-    }
+passport.deserializeUser(async function (id, done) {
+  try {
+    // Find the user by id
+    const user = await User.findById(id);
     return done(null, user);
-  });
+  } catch (err) {
+    console.log("Error in finding user ----> passport");
+    return done(err);
+  }
 });
 
 module.exports = passport;

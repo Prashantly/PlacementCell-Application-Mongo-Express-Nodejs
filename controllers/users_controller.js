@@ -55,4 +55,7 @@ module.exports.create = async (req, res) => {
 };
 
 // sign in c=and create session for user
-module.exports.createSession = function (req, res) {};
+module.exports.createSession = function (req, res) {
+  console.log("You are successfully loggedin");
+  return res.redirect("/");
+};

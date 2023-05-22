@@ -4,6 +4,10 @@ const bodyParser = require("body-parser");
 //using layout library
 const expressLayouts = require("express-ejs-layouts");
 const db = require("./config/mongoose");
+//used for session cookie
+const session = require("express-session");
+const passport = require("passport");
+const passportLocal = require("./config/passport-local-strategy");
 const app = express();
 
 //listen to port 3000
@@ -24,6 +28,22 @@ app.set("layout extractScripts", true);
 //setup view engine
 app.set("view engine", "ejs");
 app.set("views", "./views");
+
+app.use(
+  session({
+    name: "placement-cell",
+    //change secret before deployment
+    secret: "placement",
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 //use express router
 app.use("/", require("./routes"));
