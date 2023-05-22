@@ -8,6 +8,7 @@ const db = require("./config/mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocal = require("./config/passport-local-strategy");
+const MongoStore = require("connect-mongo");
 const app = express();
 
 //listen to port 3000
@@ -29,6 +30,15 @@ app.set("layout extractScripts", true);
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
+const uri = "mongodb://127.0.0.1/placement_cell_dev"; // Replace with your MongoDB connection URL
+
+const store = MongoStore.create({
+  mongoUrl: uri,
+  collectionName: "sessions",
+  autoRemove: "disabled",
+});
+
+//mongo store is used to store the session cookie in the db
 app.use(
   session({
     name: "placement-cell",
@@ -39,6 +49,7 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
     },
+    store: store,
   })
 );
 
