@@ -9,6 +9,9 @@ module.exports.profile = function (req, res) {
 
 //render the signIn page
 module.exports.getSignin = function (req, res) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/users/profile");
+  }
   return res.render("user_signin", {
     title: "Sign In",
   });
@@ -16,6 +19,9 @@ module.exports.getSignin = function (req, res) {
 
 //render the signUp page
 module.exports.getSignup = function (req, res) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/users/profile");
+  }
   return res.render("user_signup", {
     title: "Sign Up",
   });
