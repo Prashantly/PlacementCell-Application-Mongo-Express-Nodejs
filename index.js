@@ -1,11 +1,21 @@
 const express = require("express");
-const app = express();
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 //using layout library
 const expressLayouts = require("express-ejs-layouts");
+const db = require("./config/mongoose");
+const app = express();
+
+//listen to port 3000
+const port = process.env.PORT || 3000;
 
 app.use(express.static("./assets"));
 app.use(expressLayouts);
-const db = require("./config/mongoose");
+app.use(cookieParser());
+// Parse URL-encoded bodies
+app.use(bodyParser.urlencoded({ extended: false }));
+// Parse JSON bodies
+app.use(bodyParser.json());
 
 //extract styles and scripts from sub pages into layouts
 app.set("layout extractStyles", true);
@@ -17,8 +27,6 @@ app.set("views", "./views");
 
 //use express router
 app.use("/", require("./routes"));
-//listen to port 3000
-const port = process.env.PORT || 3000;
 
 app.listen(port, (err) => {
   if (err) throw err;
