@@ -30,5 +30,12 @@
 }
 
 .navbar .navbar-nav .nav-btn .fa-user-circle {
-  font-size: 20px;
+  font-size: 18px;
+}
+.navbar .navbar-nav .nav-link {
+  font-size: 18px;
+}
+.navbar .navbar-nav .nav-link:hover {
+  color: #fff;
+  background-color: #007bff;
 }
