@@ -3,7 +3,13 @@
   class="container my-2 bg-dark w-50 text-light p-2"
   style="border-radius: 1rem"
 >
-  <form class="row g-4 mt-4 p-3" action="/student/create" method="POST">
+  <form
+    id="studentForm"
+    class="row g-4 mt-4 p-3"
+    action="/students/create"
+    method="POST"
+    onsubmit="handleSubmit(event)"
+  >
     <h4 class="m-0">Add Student</h4>
     <div class="col-12">
       <label for="name" class="form-label">Name</label>
@@ -54,7 +60,7 @@
 
     <div class="col-md-6">
       <label for="status" class="form-label">Placement Status</label>
-      <select id="status" name="status" class="form-select" required>
+      <select id="status" name="placement_status" class="form-select" required>
         <option selected>Choose...</option>
         <option value="placed">Placed</option>
         <option value="not_placed">Not Placed</option>
@@ -97,3 +103,5 @@
     </div>
   </form>
 </section>
+
+<script src="/js/add_home-students.js" type="text/javascript"></script>

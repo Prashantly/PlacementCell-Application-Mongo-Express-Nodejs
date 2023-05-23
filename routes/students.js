@@ -4,4 +4,6 @@ const studentsController = require("../controllers/students_controller");
 
 router.get("/add-student", studentsController.addStudent);
 
+router.post("/create", studentsController.createStudent);
+
 module.exports = router;
