@@ -31,7 +31,8 @@ const handleSubmit = (event) => {
     .then((response) => response.json())
     .then((data) => {
       if (data.success) {
-        console.log(data.student);
+        //after submitting form reset form
+        form.reset();
         //adding student details to DOM dynamically
         const student = data.student;
       }
