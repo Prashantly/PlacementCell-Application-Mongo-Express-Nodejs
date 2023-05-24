@@ -32,6 +32,8 @@ const handleSubmit = (event) => {
     .then((data) => {
       if (data.success) {
         console.log(data.student);
+        //adding student details to DOM dynamically
+        const student = data.student;
       }
     })
     .catch((error) => {
