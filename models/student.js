@@ -55,17 +55,6 @@ const studentSchema = new mongoose.Schema(
           type: Date,
           required: true,
         },
-      },
-    ],
-
-    results: [
-      {
-        company: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Company",
-          required: true,
-        },
-
         result: {
           type: String,
           enum: ["PASS", "FAIL", "On Hold", "Didn't Attempt"],

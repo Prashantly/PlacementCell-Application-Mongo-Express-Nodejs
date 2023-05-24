@@ -5,7 +5,7 @@
   <form
     class="row g-4 mt-4 p-3"
     style="--bs-border-opacity: 0.5"
-    action="/interview/create"
+    action="/interviews/create"
     method="POST"
   >
     <h4 class="m-0">Add Interview</h4>
@@ -22,14 +22,7 @@
     </div>
     <div class="col-12">
       <label for="date" class="form-label">Date</label>
-      <input
-        type="date"
-        class="form-control"
-        placeholder="Enter student email"
-        id="date"
-        name="date"
-        required
-      />
+      <input type="date" class="form-control" id="date" name="date" required />
     </div>
     <div class="text-center py-2">
       <button class="btn btn-primary btn-lg btn-rounded px-4" type="submit">
