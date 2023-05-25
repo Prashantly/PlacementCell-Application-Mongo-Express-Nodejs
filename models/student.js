@@ -47,7 +47,7 @@ const studentSchema = new mongoose.Schema(
 
     interviews: [
       {
-        companyName: {
+        company: {
           type: String,
           required: true,
         },
@@ -57,7 +57,7 @@ const studentSchema = new mongoose.Schema(
         },
         result: {
           type: String,
-          enum: ["PASS", "FAIL", "On Hold", "Didn't Attempt"],
+          enum: ["Pass", "Fail", "Didn't Attempt", "On Hold"],
           required: true,
         },
       },

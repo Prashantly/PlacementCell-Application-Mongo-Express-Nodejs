@@ -3,3 +3,35 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.accordion {
+  background-color: #f3f3f3;
+}
+
+/* Customize the accordion headers */
+.accordion-button {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+/* Style the accordion body */
+.accordion-body {
+  background-color: #fff;
+  color: #333;
+}
+
+/* Style the card headers */
+.card-header {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Style the interview tables */
+.table-dark {
+  background-color: #333;
+  color: #fff;
+}

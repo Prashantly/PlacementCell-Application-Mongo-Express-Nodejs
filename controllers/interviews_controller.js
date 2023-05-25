@@ -70,6 +70,9 @@ module.exports.assignInterview = async (req, res) => {
 
         await interview.save();
 
+        console.log("company", interview.company);
+        console.log("date", interview.date);
+        console.log("result", result);
         //need to assign interview company date and result into interviews array of student model
         let assignedInterview = {
           company: interview.company,
@@ -77,6 +80,7 @@ module.exports.assignInterview = async (req, res) => {
           result: result,
         };
 
+        console.log("assignedInterview", assignedInterview);
         await studentData.updateOne({
           $push: { interviews: assignedInterview },
         });
