@@ -14,8 +14,15 @@ const interviewSchema = new mongoose.Schema({
 
   students: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Student",
+      student: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student",
+      },
+
+      result: {
+        type: String,
+        enum: ["Pass", "Fail", "Didn't Attempt", "On Hold"],
+      },
     },
   ],
 });

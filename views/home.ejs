@@ -9,7 +9,7 @@
           <h3 class="card-title">Student List</h3>
         </div>
         <div class="card-body">
-          <div class="accordion accordion-flush" id="studentAccordion">
+          <div class="accordion" id="studentAccordion">
             <% for(student of all_students) {%>
             <div class="accordion-item">
               <h2 class="accordion-header">
@@ -68,29 +68,107 @@
         </div>
         <div class="card-body">
           <div class="accordion" id="interviewAccordion">
+            <% for(interview of all_interviews) { %>
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <button
                   class="accordion-button collapsed"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target="#interview1Collapse"
+                  data-bs-target="#interview<%= interview._id %>Collapse"
                   aria-expanded="false"
-                  aria-controls="interview1Collapse"
+                  aria-controls="interview<%= interview._id %>Collapse"
                 >
-                  <span class="fw-bold text-capitalize">Comapny name</span>
+                  <span class="fw-bold text-capitalize"
+                    ><%= interview.company %></span
+                  >
                 </button>
               </h2>
               <div
-                id="interview1Collapse"
+                id="interview<%= interview._id %>Collapse"
                 class="accordion-collapse collapse"
                 data-bs-parent="#interviewAccordion"
               >
                 <div class="accordion-body">
-                  <!-- Add more interviews here -->
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Company</th>
+                        <td><%= interview.company %></td>
+                      </tr>
+                      <tr>
+                        <th scope="col">Date</th>
+                        <td><%= interview.date %></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Display name, email, and result -->
+                  <% for (allocatedStudent of interview.students) { %>
+                  <h4>Allocated Student:</h4>
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Name</th>
+                        <td><%= allocatedStudent.student.name %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Email</th>
+                        <td><%= allocatedStudent.student.email %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Result</th>
+                        <td><%= allocatedStudent.result %></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <% } %>
+
+                  <!-- form to allocate student -->
+                  <h4>Allocate Student:</h4>
+                  <form
+                    action="/interviews/allocate-student/<%=interview._id%>"
+                    method="POST"
+                  >
+                    <div class="mb-3">
+                      <label for="student" class="form-label"
+                        >Select Student:</label
+                      >
+                      <select
+                        name="student"
+                        id="student"
+                        class="form-select"
+                        required
+                      >
+                        <% for (student of all_students) { %>
+                        <option value="<%= student._id %>">
+                          <%= student.name %>
+                        </option>
+                        <% } %>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label for="result" class="form-label">Result:</label>
+                      <select
+                        name="result"
+                        id="result"
+                        class="form-select"
+                        required
+                      >
+                        <option value="Pass">PASS</option>
+                        <option value="Fail">FAIL</option>
+                        <option value="On Hold">On Hold</option>
+                        <option value="Didn't Attempt">Didn't Attempt</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                      Allocate
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>
+            <%}%>
           </div>
         </div>
       </div>
