@@ -1,5 +1,5 @@
-const handleSubmit = (event) => {
-  event.preventDefault(); // Prevent the form from submitting in the default way
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
   const form = document.getElementById("studentForm");
   const formData = new FormData(form);
@@ -27,18 +27,24 @@ const handleSubmit = (event) => {
     body: JSON.stringify(studentData),
   };
 
-  fetch("/students/create", requestOptions)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        //after submitting form reset form
-        form.reset();
-        //adding student details to DOM dynamically
-        const student = data.student;
-      }
-    })
-    .catch((error) => {
-      // Handle any errors that occur during the request
-      console.error(error);
-    });
+  let requestUrl = "/students/create"; // Default URL for creating a student
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const studentId = urlParams.get("id");
+
+  if (studentId) {
+    requestUrl = `/students/update-student/${studentId}`;
+    requestOptions.method = "PUT";
+  }
+
+  try {
+    const response = await fetch(requestUrl, requestOptions);
+    const data = await response.json();
+
+    if (data.success) {
+      form.reset();
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };

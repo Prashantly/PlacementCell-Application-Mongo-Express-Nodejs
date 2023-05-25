@@ -57,3 +57,46 @@ module.exports.editStudent = async (req, res) => {
     student_details: student,
   });
 };
+
+//update student function
+module.exports.updateStudent = async (req, res) => {
+  try {
+    //get student details from form
+    const student = await Student.findById(req.params.id);
+    const {
+      name,
+      email,
+      college,
+      batch,
+      placement_status,
+      "courseScores.dsaFinalScore": dsaFinalScore,
+      "courseScores.webDFinalScore": webDFinalScore,
+      "courseScores.reactFinalScore": reactFinalScore,
+    } = req.body;
+
+    //student id not present
+    if (!student) {
+      req.flash("error", "Student does not exist!");
+      return res.redirect("back");
+    }
+    //update student details
+    student.name = name;
+    student.email = email;
+    student.college = college;
+    student.batch = batch;
+    student.placement_status = placement_status;
+    student.courseScores.dsaFinalScore = dsaFinalScore;
+    student.courseScores.webDFinalScore = webDFinalScore;
+    student.courseScores.reactFinalScore = reactFinalScore;
+    //save student details
+    await student.save();
+    //redirect to student list page
+    //req.flash("success", "Student Details Updated Successfully");
+    console.log("success", "Student Details Updated Successfully");
+    return res.redirect("/");
+  } catch (err) {
+    // req.flash("error", err);
+    console.log(err);
+    return res.redirect("back");
+  }
+};
