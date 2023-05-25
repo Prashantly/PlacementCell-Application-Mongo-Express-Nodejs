@@ -1,4 +1,5 @@
 const Student = require("../models/student");
+const Interview = require("../models/interview");
 
 module.exports.addStudent = function (req, res) {
   return res.render("add_student", {
@@ -98,5 +99,44 @@ module.exports.updateStudent = async (req, res) => {
     // req.flash("error", err);
     console.log(err);
     return res.redirect("back");
+  }
+};
+
+module.exports.deleteStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const student = await Student.findById(id);
+
+    if (!student) {
+      // req.flash("error", "Student does not exist!");
+      return res.redirect("back");
+    }
+
+    //delete reference of student from interviews in which this student is enrolled
+    const interviewsOfStudent = student.interviews;
+
+    if (interviewsOfStudent.length > 0) {
+      const interviewPromises = interviewsOfStudent.map(async (interview) => {
+        try {
+          //get the interview in Interview model
+          await Interview.findOneAndUpdate(
+            { company: interview.company },
+            { $pull: { students: { student: id } } }
+          );
+        } catch (error) {
+          console.log("Error updating interview:", error);
+        }
+      });
+      //ensures that all the updates are completed before proceeding.
+      await Promise.all(interviewPromises);
+    }
+
+    await student.deleteOne();
+
+    // req.flash("success", "Student deleted!");
+    return res.redirect("back");
+  } catch (err) {
+    console.log("error", err);
+    return;
   }
 };
