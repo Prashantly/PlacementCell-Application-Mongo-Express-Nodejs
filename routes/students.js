@@ -6,4 +6,7 @@ router.get("/add-student", studentsController.addStudent);
 
 router.post("/create", studentsController.createStudent);
 
+//editing student details
+router.get("/edit-student/:id", studentsController.editStudent);
+
 module.exports = router;

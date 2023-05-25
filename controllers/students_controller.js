@@ -45,3 +45,15 @@ module.exports.createStudent = async (req, res) => {
     res.status(500).json({ success: false, message: "Error adding student." });
   }
 };
+
+//function to edit student details
+module.exports.editStudent = async (req, res) => {
+  const student = await Student.findById(req.params.id);
+
+  //if student found render edit student page
+
+  return res.render("edit_student", {
+    title: "Edit Student",
+    student_details: student,
+  });
+};

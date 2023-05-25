@@ -53,6 +53,26 @@
                   </p>
                 </div>
 
+                <!-- add Edit and delete button here -->
+                <div class="d-flex justify-content-around" style="width: 100%">
+                  <a
+                    href="/students/edit-student/<%= student._id %>"
+                    class="btn btn-outline-success btn-hover"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Edit"
+                    ><i class="far fa-edit"></i
+                  ></a>
+                  <a
+                    href="/students/delete-student/<%= student._id %>"
+                    class="btn btn-outline-danger btn-hover"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Delete"
+                    ><i class="fa-solid fa-trash"></i
+                  ></a>
+                </div>
+
                 <!-- display interview date and result of intrview attended by student -->
                 <div
                   class="mt-3 d-flex border-top flex-column align-items-center"
@@ -227,3 +247,9 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
