@@ -4,8 +4,24 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #343a40;
+}
+
+.welcome-card {
+  width: 70%;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
 .accordion {
   background-color: #f3f3f3;
+}
+
+.navbar .navbar-nav .nav-btn {
+  padding: 10px;
 }
 
 /* Customize the accordion headers */

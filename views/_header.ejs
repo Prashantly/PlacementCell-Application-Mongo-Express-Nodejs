@@ -28,21 +28,23 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <% if (locals.user) { %>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item me-2">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
           <li class="nav-item me-2">
-            <a class="nav-link" href="/students/add-student">Add Student</a>
+            <a class="nav-link active" href="/students/add-student"
+              >Add Student</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/interviews/add-interview"
+            <a class="nav-link active" href="/interviews/add-interview"
               >Schedule Interview</a
             >
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-lg-0">
-          <% if (locals.user) { %>
           <li class="nav-btn">
             <a class="btn btn-outline-light" href="/users/profile">
               <i class="fas fa-user-circle"></i>
@@ -55,19 +57,6 @@
             <a class="btn btn-outline-light" href="/users/logout">
               <i class="fas fa-sign-out-alt"></i>
               <span class="ps-1 fw-bold">Logout</span>
-            </a>
-          </li>
-          <% } else { %>
-          <li class="nav-btn">
-            <a class="btn btn-outline-light" href="/users/signup">
-              <i class="fas fa-user-plus"></i>
-              <span class="ps-1 fw-bold">Sign Up</span>
-            </a>
-          </li>
-          <li class="nav-btn">
-            <a class="btn btn-outline-light" href="/users/signin">
-              <i class="fas fa-sign-in-alt"></i>
-              <span class="ps-1 fw-bold">Login</span>
             </a>
           </li>
           <% } %>

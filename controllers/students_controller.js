@@ -2,9 +2,13 @@ const Student = require("../models/student");
 const Interview = require("../models/interview");
 
 module.exports.addStudent = function (req, res) {
-  return res.render("add_student", {
-    title: "Add student",
-  });
+  if (req.isAuthenticated()) {
+    return res.render("add_student", {
+      title: "Add student",
+    });
+  }
+
+  return res.redirect("/");
 };
 
 // creation of new student
@@ -53,10 +57,14 @@ module.exports.editStudent = async (req, res) => {
 
   //if student found render edit student page
 
-  return res.render("edit_student", {
-    title: "Edit Student",
-    student_details: student,
-  });
+  if (req.isAuthenticated()) {
+    return res.render("edit_student", {
+      title: "Edit Student",
+      student_details: student,
+    });
+  }
+
+  return res.redirect("/");
 };
 
 //update student function
