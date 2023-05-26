@@ -18,9 +18,9 @@ module.exports.createInterview = async (req, res) => {
       date,
     });
     await interview.save();
-    console.log(interview);
-    // req.flash("success", "Interview added!");
-    return res.redirect("back");
+    // console.log(interview);
+    req.flash("success", "Interview added!");
+    return res.redirect("/");
   } catch (err) {
     console.log(err);
     return res.status(500).json({
@@ -34,11 +34,10 @@ module.exports.assignInterview = async (req, res) => {
   try {
     // get interview id from parameter passed to the URL
     const interviewId = req.params.id;
-    // console.log(req.body);
+
     const { student, result } = req.body;
-    // console.log(studentId, result);
+
     let interview = await Interview.findById(interviewId);
-    // console.log("interview", interview);
 
     if (interview) {
       // if interview is found
@@ -54,10 +53,10 @@ module.exports.assignInterview = async (req, res) => {
 
         if (alreadyAllocated) {
           // if student already allocated in interview
-          // req.flash(
-          //   "error",
-          //   `${student.name} already enrolled in ${interview.company} interview!!`
-          // );
+          req.flash(
+            "error",
+            `${studentData.name} already enrolled in ${interview.company} interview!!`
+          );
 
           return res.redirect("back");
         }
@@ -70,9 +69,6 @@ module.exports.assignInterview = async (req, res) => {
 
         await interview.save();
 
-        console.log("company", interview.company);
-        console.log("date", interview.date);
-        console.log("result", result);
         //need to assign interview company date and result into interviews array of student model
         let assignedInterview = {
           company: interview.company,
@@ -85,21 +81,21 @@ module.exports.assignInterview = async (req, res) => {
           $push: { interviews: assignedInterview },
         });
 
-        // req.flash(
-        //   "success",
-        //   `${student.name} enrolled in ${interview.company} interview!!`
-        // );
+        req.flash(
+          "success",
+          `${studentData.name} enrolled in ${interview.company} interview!!`
+        );
         return res.redirect("back");
       }
 
-      // req.flash("error", "Student not found!");
+      req.flash("error", "Student not found!");
       return res.redirect("back");
     }
 
-    // req.flash("error", "Interview not found!");
+    req.flash("error", "Interview not found!");
     return res.redirect("back");
   } catch (err) {
     console.log("Error:", err);
-    // req.flash("error", "Error in enrolling interview!");
+    req.flash("error", "Error in enrolling interview!");
   }
 };

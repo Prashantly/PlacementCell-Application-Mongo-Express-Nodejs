@@ -35,18 +35,20 @@ module.exports.createStudent = async (req, res) => {
         },
       });
 
-      return res.status(200).json({
+      req.flash("success", "Student added successfully!");
+      res.status(200).json({
         success: true,
         message: "Student added successfully!",
         student: newStudent,
       });
     } else {
-      // req.flash("error", "Student already exist!");
+      req.flash("error", "Student already exist!");
       return res.json({ success: false, message: "Student already exists!" });
     }
   } catch (err) {
     console.log(err);
     // Error occurred
+    req.flash("error", "Error adding student!!");
     res.status(500).json({ success: false, message: "Error adding student." });
   }
 };
@@ -100,12 +102,11 @@ module.exports.updateStudent = async (req, res) => {
     //save student details
     await student.save();
     //redirect to student list page
-    //req.flash("success", "Student Details Updated Successfully");
-    console.log("success", "Student Details Updated Successfully");
+    req.flash("success", "Student Details Updated Successfully");
     return res.redirect("/");
   } catch (err) {
-    // req.flash("error", err);
-    console.log(err);
+    req.flash("error", err);
+    console.log("error", err);
     return res.redirect("back");
   }
 };
@@ -116,7 +117,7 @@ module.exports.deleteStudent = async (req, res) => {
     const student = await Student.findById(id);
 
     if (!student) {
-      // req.flash("error", "Student does not exist!");
+      req.flash("error", "Student does not exist!");
       return res.redirect("back");
     }
 
@@ -141,7 +142,7 @@ module.exports.deleteStudent = async (req, res) => {
 
     await student.deleteOne();
 
-    // req.flash("success", "Student deleted!");
+    req.flash("success", "Student deleted!");
     return res.redirect("back");
   } catch (err) {
     console.log("error", err);

@@ -11,6 +11,7 @@ const passportLocal = require("./config/passport-local-strategy");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const customMware = require("./config/middleware");
+
 const app = express();
 
 //listen to port 3000

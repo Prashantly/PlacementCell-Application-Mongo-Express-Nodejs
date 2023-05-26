@@ -34,25 +34,27 @@ module.exports.create = async (req, res) => {
 
     // if password doesn't match
     if (password !== confirm_password) {
-      return res.status(400).send("Passwords do not match");
+      req.flash("error", "Passwords do not match");
+      return res.redirect("back");
     }
 
     // check if user already exists
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(409).send("Email already registered");
+      req.flash("error", "Email already registered!");
+      return res.redirect("back");
     }
 
     // create a new user
-    const newUser = await User.create({
+    await User.create({
       username,
       email,
       password,
     });
 
     // success flash message
-    // req.flash("success", "Account created!");
+    req.flash("success", "Account created!");
     return res.redirect("/users/signin");
   } catch (err) {
     console.log(err);
@@ -73,7 +75,7 @@ module.exports.destroySession = function (req, res) {
     if (err) {
       return next(err);
     }
+    req.flash("success", "You are now signed out");
+    return res.redirect("/");
   });
-  req.flash("success", "You are now signed out");
-  return res.redirect("/");
 };

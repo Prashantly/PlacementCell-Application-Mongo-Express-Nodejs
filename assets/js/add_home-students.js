@@ -43,6 +43,9 @@ const handleSubmit = async (event) => {
 
     if (data.success) {
       form.reset();
+
+      //after form reset redirect to the home page to see student list
+      window.location.href = "/";
     }
   } catch (error) {
     console.log(error);
