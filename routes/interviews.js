@@ -5,5 +5,9 @@ const interviewsController = require("../controllers/interviews_controller");
 router.get("/add-interview", interviewsController.addInterview);
 router.post("/create", interviewsController.createInterview);
 router.post("/allocate-student/:id", interviewsController.assignInterview);
+router.get(
+  "/deallocate-student/:studentId/:interviewId",
+  interviewsController.deallocate
+);
 
 module.exports = router;

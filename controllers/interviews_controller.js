@@ -1,3 +1,4 @@
+const { closeDelimiter } = require("ejs");
 const Interview = require("../models/interview");
 const Student = require("../models/student");
 
@@ -97,5 +98,57 @@ module.exports.assignInterview = async (req, res) => {
   } catch (err) {
     console.log("Error:", err);
     req.flash("error", "Error in enrolling interview!");
+  }
+};
+
+// deallocation of student to an interview
+module.exports.deallocate = async (req, res) => {
+  try {
+    let studentName;
+    const { studentId, interviewId } = req.params;
+
+    //remove student from students array in Interview model
+    const interview = await Interview.findById(interviewId);
+
+    if (interview) {
+      //remove reference of student in inteview schema
+      await Interview.findOneAndUpdate(
+        { _id: interviewId },
+        {
+          $pull: {
+            students: {
+              student: studentId,
+            },
+          },
+        }
+      );
+
+      // remove interview from student's schema using interview's company
+      const studentData = await Student.findOne({ _id: studentId });
+      if (studentData) {
+        studentName = studentData.name;
+        //remove student from student's interviews array
+        await studentData.updateOne({
+          $pull: {
+            interviews: {
+              company: interview.company,
+            },
+          },
+        });
+      }
+
+      //add flash message
+      req.flash(
+        "success",
+        `${studentName} removed from ${interview.company} successfully!`
+      );
+      return res.redirect("back");
+    } else {
+      req.flash("error", "Interview not found!");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    req.flash("error", "Error in removing student");
+    console.log("Error:", err);
   }
 };

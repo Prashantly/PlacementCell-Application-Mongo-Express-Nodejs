@@ -70,7 +70,7 @@
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Delete"
-                    ><i class="fa-solid fa-trash"></i
+                    ><i class="fa-solid fa-trash-can"></i
                   ></a>
                 </div>
 
@@ -158,6 +158,16 @@
                   <% for (allocatedStudent of interview.students) { %>
                   <div class="card mb-3">
                     <div class="card-body">
+                      <a
+                        href="/interviews/deallocate-student/<%= allocatedStudent.student.id %>/<%= interview.id %>"
+                        class="btn btn-sm btn-outline-danger delete-link"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Delete"
+                        style="position: absolute; top: 50%; right: 5px"
+                      >
+                        <i class="fa-solid fa-trash-can"></i>
+                      </a>
                       <div class="row">
                         <div class="col-md-6">
                           <p class="card-text">
@@ -177,6 +187,7 @@
                       </p>
                     </div>
                   </div>
+
                   <% } %>
 
                   <!-- Button to toggle the Allocate Student form -->
