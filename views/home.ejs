@@ -33,11 +33,17 @@
                 data-bs-parent="#studentAccordion"
               >
                 <div class="accordion-body">
-                  <p><strong>Name:</strong> <%= student.name %></p>
+                  <p class="text-capitalize">
+                    <strong>Name:</strong> <%= student.name %>
+                  </p>
                   <p><strong>Email:</strong> <%= student.email %></p>
-                  <p><strong>College:</strong> <%= student.college %></p>
-                  <p><strong>Batch:</strong> <%= student.batch %></p>
-                  <p>
+                  <p class="text-capitalize">
+                    <strong>College:</strong> <%= student.college %>
+                  </p>
+                  <p class="text-capitalize">
+                    <strong>Batch:</strong> <%= student.batch %>
+                  </p>
+                  <p class="text-capitalize">
                     <strong>Status:</strong> <%= student.placement_status %>
                   </p>
                   <p>

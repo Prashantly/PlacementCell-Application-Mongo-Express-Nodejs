@@ -46,9 +46,28 @@
         </ul>
         <ul class="navbar-nav ms-auto mb-lg-0">
           <li class="nav-btn">
+            <a
+              class="navbar-brand p-1"
+              href="/download-report"
+              style="font-size: 26px; color: rgb(255, 255, 255)"
+            >
+              <i
+                class="fa-solid fa-file-arrow-down"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Download Report"
+              ></i>
+            </a>
+          </li>
+
+          <li class="nav-btn">
             <a class="btn btn-outline-light" href="/users/profile">
               <i class="fas fa-user-circle"></i>
-              <span class="text-capitalize ps-1 fw-bold"
+              <span
+                class="text-capitalize ps-1 fw-bold"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="User profile"
                 ><%= locals.user.username %></span
               >
             </a>
