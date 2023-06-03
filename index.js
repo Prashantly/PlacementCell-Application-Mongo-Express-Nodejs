@@ -47,8 +47,8 @@ app.use(
     name: "placement-cell",
     //change secret before deployment
     secret: "placement",
-    saveUninitialized: false,
-    resave: false,
+    saveUninitialized: false, // don't create session until something stored
+    resave: false, //don't save session if unmodified
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
     },
