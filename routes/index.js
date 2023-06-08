@@ -10,4 +10,6 @@ router.use("/students", require("./students"));
 router.use("/interviews", require("./interviews"));
 router.get("/download-report", csvController.downloadCSV);
 
+router.use("/jobs", require("./jobs"));
+
 module.exports = router;
