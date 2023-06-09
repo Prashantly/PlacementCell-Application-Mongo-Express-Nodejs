@@ -152,3 +152,62 @@ module.exports.deallocate = async (req, res) => {
     console.log("Error:", err);
   }
 };
+
+// updation of result in allocated student
+module.exports.updateStudent = async (req, res) => {
+  try {
+    let studentName;
+    const { studentId, interviewId } = req.params;
+    const { result } = req.body;
+
+    //find interview by id
+    const interview = await Interview.findById(interviewId);
+
+    if (interview) {
+      //update interview result of student's schema using interviews comapny
+      const student = await Student.findById(studentId);
+
+      if (student && student.interviews.length > 0) {
+        studentName = student.name;
+        await Interview.updateOne(
+          {
+            _id: interviewId,
+            "students.student": studentId,
+          },
+          {
+            $set: {
+              //The positional operator $ is used to update the result field of that specific student.
+              "students.$.result": result,
+            },
+          }
+        );
+
+        await Student.updateOne(
+          {
+            _id: studentId,
+            "interviews.company": interview.company,
+          },
+          {
+            $set: {
+              "interviews.$.result": result,
+            },
+          }
+        );
+
+        //flash message
+        req.flash("success", `${studentName} result updated successfully`);
+        return res.json({ success: true });
+      } else {
+        req.flash("error", "No student found");
+        return res.json({ success: false });
+      }
+    } else {
+      req.flash("error", "Interview not found!");
+      return res.json({ success: false, message: "Interview not found!" }); // Send a JSON response indicating failure
+    }
+  } catch (err) {
+    req.flash("error", "Error in updating result");
+    console.log("Error", err);
+    return res.json({ success: false, message: "Error in updating result" }); // Send a JSON response indicating failure
+  }
+};

@@ -170,27 +170,85 @@
                         data-toggle="tooltip"
                         data-placement="top"
                         title="Delete"
-                        style="position: absolute; top: 50%; right: 5px"
+                        style="position: absolute; top: 0%; right: 5px"
                       >
                         <i class="fa-solid fa-trash-can"></i>
                       </a>
+                      <a
+                        href="#"
+                        class="btn btn-sm btn-outline-success edit-link"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Edit"
+                        style="position: absolute; top: 0%; right: 10%"
+                        onclick='toggleEdit("<%= allocatedStudent.result %>","<%=allocatedStudent.student.id%>","<%= interview.id %>")'
+                      >
+                        <i class="fa-solid fa-edit"></i>
+                      </a>
+
                       <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-12 mb-2">
                           <p class="card-text">
                             <strong>Name:</strong> <%=
                             allocatedStudent.student.name %>
                           </p>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-12 mb-2">
                           <p class="card-text">
                             <strong>Email:</strong> <%=
                             allocatedStudent.student.email %>
                           </p>
                         </div>
                       </div>
-                      <p class="card-text">
+                      <!-- Result Display -->
+                      <p
+                        id="result-display-<%= allocatedStudent.student.id %>-<%= interview.id %>"
+                        class="card-text"
+                      >
                         <strong>Result:</strong> <%= allocatedStudent.result %>
                       </p>
+
+                      <!-- Result Dropdown (Initially Hidden) -->
+                      <div
+                        id="result-select-<%= allocatedStudent.student.id %>-<%= interview.id %>"
+                        class="mb-2"
+                        style="display: none"
+                      >
+                        <div
+                          class="d-flex justify-content-center align-items-center"
+                        >
+                          <label for="result" class="form-label fw-bold m-1"
+                            >Result:</label
+                          >
+                          <select
+                            name="result"
+                            id="result-<%= allocatedStudent.student.id %>"
+                            class="form-select"
+                            required
+                          >
+                            <option value="Pass">Pass</option>
+                            <option value="Fail">Fail</option>
+                            <option value="On Hold">On Hold</option>
+                            <option value="Didn't Attempt">
+                              Didn't Attempt
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <button
+                        id="update-button-<%= allocatedStudent.student.id %>-<%= interview.id %>"
+                        class="btn btn-sm btn-success mt-2"
+                        style="
+                          display: none;
+                          margin: auto;
+                          padding: 5px;
+                          font-size: 16px;
+                        "
+                        onclick="updateStudent('<%= allocatedStudent.student.id %>','<%= interview.id %>')"
+                      >
+                        Update Student
+                      </button>
                     </div>
                   </div>
 
@@ -270,6 +328,58 @@
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
+
+  //toggle Edit function
+  function toggleEdit(result, studentId, interviewId) {
+    const resultDisplay = document.getElementById(
+      `result-display-${studentId}-${interviewId}`
+    );
+    const resultSelect = document.getElementById(
+      `result-select-${studentId}-${interviewId}`
+    );
+    const updateButton = document.getElementById(
+      `update-button-${studentId}-${interviewId}`
+    );
+    if (resultDisplay && resultSelect && updateButton) {
+      if (resultDisplay.style.display === "none") {
+        // Currently in edit mode, switch back to display mode
+        resultDisplay.innerHTML = `<strong>Result:</strong> ${result}`;
+        resultDisplay.style.display = "block";
+        resultSelect.style.display = "none";
+        updateButton.style.display = "none";
+      } else {
+        //switch to edit mode
+        resultDisplay.style.display = "none";
+        resultSelect.style.display = "block";
+        updateButton.style.display = "block";
+      }
+    }
+  }
+
+  function updateStudent(studentId, interviewId) {
+    const resultSelected = document.getElementById(`result-${studentId}`);
+    //get select element from resultSelect
+    const selectedValue = resultSelected.value;
+
+    // send ajax request with selected value
+    $.ajax({
+      url: `/interviews/update-student/${studentId}/${interviewId}`,
+      method: "POST",
+      data: {
+        result: selectedValue,
+      },
+      success: function (data) {
+        console.log(data);
+        if (data.success) {
+          toggleEdit(selectedValue);
+          //to update the page
+          window.location.reload();
+        } else {
+          window.location.reload();
+        }
+      },
+    });
+  }
 </script>
 
 <% } else { %>

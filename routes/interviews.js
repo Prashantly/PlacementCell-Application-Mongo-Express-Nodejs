@@ -10,4 +10,9 @@ router.get(
   interviewsController.deallocate
 );
 
+router.post(
+  "/update-student/:studentId/:interviewId",
+  interviewsController.updateStudent
+);
+
 module.exports = router;

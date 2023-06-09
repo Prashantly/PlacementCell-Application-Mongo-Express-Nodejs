@@ -14,7 +14,7 @@ async function fetchJobsFromAPI(apiUrl, params) {
 module.exports.getJobList = async (req, res) => {
   try {
     // const jobsFromGithub = await fetchJobsFromAPI(
-    //   "https://jobs.github.com/positions.json"
+    //   ""
     // );
     const jobsFromAdzuna = await fetchJobsFromAPI(
       "http://api.adzuna.com/v1/api/jobs/in/search/1?app_id=75dd08f9&app_key=fcbefd4625adbc3e8fd5f83138f6a2df&results_per_page=10&what=react%20nodejs%20developer&content-type=application/json"
