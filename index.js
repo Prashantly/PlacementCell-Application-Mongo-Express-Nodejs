@@ -1,6 +1,8 @@
+require("dotenv").config({ path: "./config.env" });
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+
 //using layout library
 const expressLayouts = require("express-ejs-layouts");
 const db = require("./config/mongoose");
@@ -46,7 +48,7 @@ app.use(
   session({
     name: "placement-cell",
     //change secret before deployment
-    secret: "placement",
+    secret: process.env.SECRET,
     saveUninitialized: false, // don't create session until something stored
     resave: false, //don't save session if unmodified
     cookie: {

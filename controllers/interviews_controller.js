@@ -20,7 +20,10 @@ module.exports.createInterview = async (req, res) => {
     });
     await interview.save();
     // console.log(interview);
-    req.flash("success", "Interview added!");
+    req.flash(
+      "success",
+      `Exciting News! ${company} Company will be Visiting Campus on ${date}`
+    );
     return res.redirect("/");
   } catch (err) {
     console.log(err);
@@ -77,7 +80,6 @@ module.exports.assignInterview = async (req, res) => {
           result: result,
         };
 
-        console.log("assignedInterview", assignedInterview);
         await studentData.updateOne({
           $push: { interviews: assignedInterview },
         });
