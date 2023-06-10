@@ -21,17 +21,3 @@ const connectDB = async () => {
 
 connectDB();
 module.exports = db;
-
-// mongoose.connect("mongodb://127.0.0.1/placement_cell_dev", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-
-// // Equivalent code without bind
-// db.on("error", (error) => {
-//   console.error("Error connecting to MongoDB", error);
-// });
-
-// db.once("open", function () {
-//   console.log("connected to Database : MongoDB");
-// });
