@@ -35,7 +35,7 @@ app.set("layout extractScripts", true);
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-const uri = "mongodb://127.0.0.1/placement_cell_dev"; // Replace with your MongoDB connection URL
+const uri = process.env.CONN_STR; // Replace with your MongoDB connection URL
 
 const store = MongoStore.create({
   mongoUrl: uri,
