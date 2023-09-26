@@ -13,6 +13,17 @@ module.exports.createInterview = async (req, res) => {
   try {
     const { company, date } = req.body;
 
+    // Create a case-insensitive regex pattern for the company name
+    comapnyPattern = new RegExp(`^${company}$`, 'i');
+
+    const existingInterview = await Interview.findOne({ company: comapnyPattern })
+
+    if(existingInterview){
+      // Company already exists, handle as needed
+      req.flash("error", `Company ${company} already exists.`);
+      return res.redirect("/");
+    }
+
     //create interview
     const interview = new Interview({
       company,
@@ -211,5 +222,26 @@ module.exports.updateStudent = async (req, res) => {
     req.flash("error", "Error in updating result");
     console.log("Error", err);
     return res.json({ success: false, message: "Error in updating result" }); // Send a JSON response indicating failure
+  }
+};
+
+
+module.exports.removeInterview = async (req, res) => {
+  try {
+    const { interviewId } = req.params;
+
+    const interview = await Interview.findById(interviewId);
+
+    if (!interview) {
+      req.flash("error", "Interview does not exist");
+      return res.status(404).json({ success: false, error: "Interview does not exist" });
+    }
+
+    // Remove the interview from the database
+    await Interview.deleteOne({ _id: interviewId });
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ success: false, error: "Error in unscheduling interview" });
   }
 };

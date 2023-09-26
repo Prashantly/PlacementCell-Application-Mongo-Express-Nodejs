@@ -122,15 +122,13 @@
         <div class="card-body">
           <div class="accordion" id="interviewAccordion">
             <% for (interview of all_interviews) { %>
-            <div class="accordion-item">
+            <div class="accordion-item" data-interview-id="<%=interview._id%>">
               <h2 class="accordion-header">
                 <button
                   class="accordion-button"
                   type="button"
                   data-bs-toggle="collapse"
                   data-bs-target="#interview<%= interview._id %>Collapse"
-                  aria-expanded="false"
-                  aria-controls="interview<%= interview._id %>Collapse"
                 >
                   <span class="fw-bold text-capitalize"
                     ><%= interview.company %></span
@@ -149,6 +147,9 @@
                         <th scope="row">Company</th>
                         <td class="fw-bold text-capitalize">
                           <%= interview.company %>
+                        </td>
+                        <td>
+                          <button class="unschedule-btn" onclick="unSchedule('<%=interview._id%>');">Unschedule</button>
                         </td>
                       </tr>
                       <tr>
@@ -380,6 +381,37 @@
       },
     });
   }
+
+
+  function unSchedule(interviewId) {
+
+    const userConfirmation = confirm("Are you sure you want to unschedule this interview?");
+
+    if(userConfirmation){
+      $.ajax({
+    url: `/interviews/unschedule/${interviewId}`,
+    method: "DELETE",
+    success: function (data) {
+      if(data.success){
+        $(`[data-interview-id="${interviewId}"]`).remove()
+        alert("Interview unscheduled successfully");
+        
+      }else{
+        // Handle error if needed
+        alert("Error: " + data.error);
+        console.error(data.error);
+      }
+      
+    },
+    error: function (error) {
+      // Handle errors, e.g., display an error message
+      alert("Error unscheduling interview: " + error.statusText);
+      console.error("Error unscheduling interview:", error);
+    },
+  });
+  }
+  
+}
 </script>
 
 <% } else { %>

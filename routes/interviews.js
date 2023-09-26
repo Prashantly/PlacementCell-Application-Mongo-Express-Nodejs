@@ -15,4 +15,8 @@ router.post(
   interviewsController.updateStudent
 );
 
+//unscedule interview
+router.delete("/unschedule/:interviewId",interviewsController.removeInterview)
+
+
 module.exports = router;
